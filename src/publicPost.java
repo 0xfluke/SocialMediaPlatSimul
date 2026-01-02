@@ -1,5 +1,3 @@
-package SocialMediaSimul;
-
-public class publicPost extends textMessage{
+public class publicPost{
 
 }

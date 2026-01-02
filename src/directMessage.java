@@ -1,5 +1,5 @@
-package SocialMediaSimul;
 
-public class directMessage extends textMessage{
+
+public class directMessage{
 
 }

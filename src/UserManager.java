@@ -1,7 +1,7 @@
 import java.util.HashMap;
 
 public class UserManager {
-    HashMap<String, User> userList = new HashMap();
+    private HashMap<String, User> userList = new HashMap();
     // In frontend, we will receive some user input regarding the Sign-In or Sign-Up choice
     // Our backend should first receive the user input, then act upon
     // If the input is Sign Up, we need to prompt the user with new input fields
@@ -11,11 +11,15 @@ public class UserManager {
     private boolean usernameValid = false;
     private boolean mailAddressValid = false;
     private boolean passwordValid = false;
-    String [] numList = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
-    String [] letterList = {"a", "b", "c", "d", "e", "f", "g", "j", "k", "l", "m", "n", "o", "p"};
-    String [] charlist = {"!", "_", "."};
-    String [] mailProviderList = {"gmail.com", "yahoo.com"};
+    private final String [] numList = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+    private final String [] letterList = {"a", "b", "c", "d", "e", "f", "g", "j", "k", "l", "m", "n", "o", "p"};
+    private final String [] charlist = {"!", "_", "."};
+    private final String [] mailProviderList = {"gmail.com", "yahoo.com"};
+    private User currentUser;
 
+    public UserManager(User  user){
+        signInManager(user.getUsername(), user.getPassword());
+    }
 
     // But, in order to create this user object, the input should be valid. We need a checker method for user input, above all methods.
     // We need to check Username, Mail Address and Password for valid input. Location and Birth Date will be selected via a drop-down menu in the UI.
@@ -93,6 +97,7 @@ public class UserManager {
         }
         return passwordValid;
     }
+
     // This should take all necessary input, construct a User object with it and store that User object with the correct Key-Value mapping in our HashMap
     public void receiver(String username, String mailAddress, String password, String location, String birthDate){
         if(usernameChecker(username) && mailAddressChecker(mailAddress) && passwordChecker(password)){
@@ -114,15 +119,13 @@ public class UserManager {
             }
         }
 
-
-
-
     }
-    public Boolean signInManager(String username, String password){ // Takes the username and password, then check them in the HashMap
+    public boolean signInManager(String username, String password){ // Takes the username and password, then check them in the HashMap
         if(userList.containsKey(username)){
             User foundUser = userList.get(username);
             if(foundUser.getPassword().equals(password)){
                 loginAccess = true;
+                currentUser = foundUser;
             }
             else{
                 System.out.println("Wrong password");
@@ -135,13 +138,14 @@ public class UserManager {
         }
         return loginAccess;
     }
-
-
+    public User getCurrentUser() {
+        return currentUser;
+    }
 }
 
 // Input Conditions
 // 1. Username should be 5-12 characters, should contain at least 1 letter and 1 number. But no characters or symbols are allowed.
 // 2. Password should be 5-12 characters, should contain at least 1 letter, 1 number and 1 char from the following list: "!, _, +, %, &, >, £, #, $, ½"
-// 3. Location should be a valid country name, one of 195 in the country list. No case sensitive but typos are not accepted.
+// 3. Location should be a valid country name, one of 195 in the country list. No case-sensitive but typos are not accepted.
 // 4. Birth Date should be in the format of DD/MM/YYYY.
 // 5. Mail Address should have 1 @ character, and it should end with a valid provider extension like "gmail.com"
