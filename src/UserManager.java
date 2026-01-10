@@ -16,9 +16,8 @@ public class UserManager {
     private final String [] charlist = {"!", "_", "."};
     private final String [] mailProviderList = {"gmail.com", "yahoo.com"};
     private User currentUser;
-
-    public UserManager(User  user){
-        signInManager(user.getUsername(), user.getPassword());
+    public UserManager(){
+        signInManager(currentUser.getUsername(), currentUser.getPassword());
     }
 
     // But, in order to create this user object, the input should be valid. We need a checker method for user input, above all methods.
@@ -141,11 +140,7 @@ public class UserManager {
     public User getCurrentUser() {
         return currentUser;
     }
+    public boolean getLoginAccess(){
+        return this.loginAccess;
+    }
 }
-
-// Input Conditions
-// 1. Username should be 5-12 characters, should contain at least 1 letter and 1 number. But no characters or symbols are allowed.
-// 2. Password should be 5-12 characters, should contain at least 1 letter, 1 number and 1 char from the following list: "!, _, +, %, &, >, £, #, $, ½"
-// 3. Location should be a valid country name, one of 195 in the country list. No case-sensitive but typos are not accepted.
-// 4. Birth Date should be in the format of DD/MM/YYYY.
-// 5. Mail Address should have 1 @ character, and it should end with a valid provider extension like "gmail.com"
