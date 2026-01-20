@@ -2,17 +2,12 @@ import java.util.HashMap;
 
 public class UserManager {
     private HashMap<String, User> userList = new HashMap();
-    // In frontend, we will receive some user input regarding the Sign-In or Sign-Up choice
-    // Our backend should first receive the user input, then act upon
-    // If the input is Sign Up, we need to prompt the user with new input fields
-    private boolean userDecisionSignUp = false;
-    private boolean userDecisionSignIn = false;
     private boolean loginAccess = false; // If set to true, access to the dashboard
     private boolean usernameValid = false;
     private boolean mailAddressValid = false;
     private boolean passwordValid = false;
     private final String [] numList = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
-    private final String [] letterList = {"a", "b", "c", "d", "e", "f", "g", "j", "k", "l", "m", "n", "o", "p"};
+    private final String [] letterList = {"a", "b", "c", "d", "e", "f", "g", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
     private final String [] charlist = {"!", "_", "."};
     private final String [] mailProviderList = {"gmail.com", "yahoo.com"};
     private User currentUser;
@@ -20,7 +15,6 @@ public class UserManager {
         signInManager(currentUser.getUsername(), currentUser.getPassword());
     }
 
-    // But, in order to create this user object, the input should be valid. We need a checker method for user input, above all methods.
     // We need to check Username, Mail Address and Password for valid input. Location and Birth Date will be selected via a drop-down menu in the UI.
     public boolean usernameChecker(String username){
         if(userList.containsKey(username)){
@@ -142,5 +136,8 @@ public class UserManager {
     }
     public boolean getLoginAccess(){
         return this.loginAccess;
+    }
+    public HashMap<String, User> getUserList(){
+        return userList;
     }
 }

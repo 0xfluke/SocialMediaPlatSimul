@@ -1,8 +1,43 @@
+import java.io.*;
 import java.util.Scanner;
+import java.util.HashMap;
+import static java.lang.System.in;
 
 public class Main {
+    public static void saveUser(HashMap<String, User> userList){
+        try{
+            FileOutputStream fos = new FileOutputStream("users.txt");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(userList);
+            oos.close();
+            fos.close();
+            System.out.println("User has been saved successfully");
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+    public static HashMap <String, User> loadUser(){
+        HashMap<String, User> savedUser = null;
+        try{
+            FileInputStream fis = new FileInputStream("users.txt");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            savedUser = (HashMap<String, User>) ois.readObject();
+            ois.close();
+            fis.close();
+        }
+        catch (FileNotFoundException e){
+            System.out.println("No saved user found. Creating new user.");
+            savedUser = new HashMap<>();
+        }
+        catch (IOException | ClassNotFoundException e){
+            e.printStackTrace();
+            savedUser = new HashMap<>();
+        }
+        return savedUser;
+    }
     public static void main (String[] args){
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(in);
         UserManager userManager = new UserManager();
         PublicDashboard publicDashboard = new PublicDashboard();
         // AUTH LOOP
@@ -29,6 +64,7 @@ public class Main {
                 System.out.print("Please enter your birth date (DD/MM/YYYY): ");
                 String birthDate = scanner.nextLine();
                 userManager.receiver(username, mailAddress, password, location, birthDate);
+                saveUser(userManager.getUserList());
             }
             else if(answer == 1){
                 System.out.println("Welcome to the Sign In Screen!");
@@ -43,7 +79,12 @@ public class Main {
             }
         }
         //DASHBOARD LOOP
-
+        while(userManager.getLoginAccess()){
+            publicDashboard.displayFeed();
+            System.out.println("Create your content to share: ");
+            String content = scanner.nextLine();
+            publicDashboard.contentManager(content);
+        }
 
     }
 }
