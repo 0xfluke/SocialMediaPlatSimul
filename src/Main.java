@@ -84,6 +84,11 @@ public class Main {
             System.out.println("Create your content to share: ");
             String content = scanner.nextLine();
             publicDashboard.contentManager(content);
+            System.out.println("Profile Page");
+            boolean isProfilePageRequested = scanner.nextBoolean();
+            if(isProfilePageRequested){
+                ProfilePage profilePage = new ProfilePage(userManager.getCurrentUser());
+            }
         }
 
     }

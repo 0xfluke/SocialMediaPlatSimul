@@ -5,6 +5,13 @@ import java.time.format.DateTimeFormatter;
 
 public class PublicDashboard {
     private ArrayList<String> bannedWords = new ArrayList<>();
+    private ArrayList<Message> publicFeed = new ArrayList<>();
+    public PublicDashboard() {
+        this.publicFeed = readFeed();
+        if(this.publicFeed.isEmpty()){
+            this.publicFeed = new ArrayList<>();
+        }
+    }
     UserManager userManager;
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
     String timestamp =  LocalDateTime.now().format(dtf);
@@ -21,22 +28,22 @@ public class PublicDashboard {
             e.printStackTrace();
         }
     }
-    public static String readFeed() {
-        String content = null;
+    public static ArrayList<Message> readFeed() {
+        ArrayList<Message> content = null;
         try {
             FileInputStream fis1 = new FileInputStream("publicFeed.txt");
             ObjectInputStream ois1 = new ObjectInputStream(fis1);
-            content = (String) ois1.readObject();
+            content = (ArrayList<Message>) ois1.readObject();
             ois1.close();
             fis1.close();
         }
         catch (FileNotFoundException e) {
             System.out.println("File not found!");
-            content = new String();
+            content = new ArrayList<Message>();
         }
         catch (IOException | ClassNotFoundException e){
             e.printStackTrace();
-            content = new String();
+            content = new ArrayList<Message>();
         }
         return content;
     }
@@ -66,7 +73,7 @@ public class PublicDashboard {
             saveFeed(newMessage);
         }
     }
-    public String displayFeed(){
+    public ArrayList<Message> displayFeed(){
         return readFeed();
     }
 }
