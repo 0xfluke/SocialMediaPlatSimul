@@ -5,7 +5,6 @@ public class Message implements Serializable {
     private String receiver; // Can be a single person or can be a public text visible to everyone
     private String content;
     private String timestamp;
-
     public Message(String sender, String content, String timestamp) {
         this.sender = sender;
         this.receiver = "All";
@@ -18,10 +17,6 @@ public class Message implements Serializable {
         this.content = content;
         this.timestamp = timestamp;
     }
-
-
-
-
     public String getSender(){return this.sender;}
     public String getReceiver(){return this.receiver;}
     public String getContent(){return this.content;}
