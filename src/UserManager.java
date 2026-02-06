@@ -12,7 +12,7 @@ public class UserManager {
     private final String [] mailProviderList = {"gmail.com", "yahoo.com"};
     private User currentUser;
     public UserManager(){
-        signInManager(currentUser.getUsername(), currentUser.getPassword());
+        //signInManager(currentUser.getUsername(), currentUser.getPassword());
     }
 
     // We need to check Username, Mail Address and Password for valid input. Location and Birth Date will be selected via a drop-down menu in the UI.
@@ -117,19 +117,18 @@ public class UserManager {
         if(userList.containsKey(username)){
             User foundUser = userList.get(username);
             if(foundUser.getPassword().equals(password)){
-                loginAccess = true;
                 currentUser = foundUser;
+                return true;
             }
             else{
                 System.out.println("Wrong password");
-                loginAccess = false;
+                return false;
             }
         }
         else{
             System.out.println("Username does not exist");
-            return loginAccess == false;
+            return false;
         }
-        return loginAccess;
     }
     public User getCurrentUser() {
         return currentUser;
